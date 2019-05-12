@@ -3,8 +3,8 @@
 
 
 reldtMtd <- function(dados) {
-  requireNamespace(data.table)
-  requireNamespace(xgboost)
+  requireNamespace('data.table')
+  requireNamespace('xgboost')
 
   melt(dados, id.vars="id")[,
                             .N, by=.(id, value)
@@ -32,8 +32,9 @@ reldtMtd <- function(dados) {
 xgb_predict_ensemble <- function(folder, newdata, classe = F){
 
 
-  requireNamespace(data.table)
-  requireNamespace(xgboost)
+  requireNamespace('data.table')
+  requireNamespace('xgboost')
+  requireNamespace('magrittr')
 
 
 

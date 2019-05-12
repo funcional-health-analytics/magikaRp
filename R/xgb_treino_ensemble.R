@@ -29,7 +29,7 @@ rnorm_t <- function(n, mu, sd, upper = Inf, lower = -Inf){
 #' @param dados Objeto \code{data.table} com os dados já pre processados e com uma coluna \code{target}.
 #' @param n_samples O tamanho do sorteio par acada classe. Se regressão o tamanbho total da amostra
 #' @param nthreads A quantidade de CPU threads disponíveis par ao XGBoost. DEFAULT: 3
-#' @param parametros A lista de parâmetros retornado pela função \code{xgb_select_params}
+#' @param parametros_treino A lista de parâmetros retornado pela função \code{xgb_select_params}
 #' @param n_models A quantidade de modelos gerados. Também é o número de sessões realizado. DEFAULT: 100
 #' @param save_importance Indicador para o salvamento das importâncias das variáveis para cada modelo. DEFAULT: F
 #' @param folder_to_save Pasta em que será salvo os \code{n_models} gerados
@@ -45,16 +45,16 @@ xgb_treino_ensemble <- function(dados,
                                 n_samples,
                                 #  metrica         = "logloss",
                                 #  objetivo        = "binary:logistic",
-                                nthreads        = 3,
-                                parametros      = NULL,
-                                n_models        = 100,
-                                save_importance = F,
-                                folder_to_save  = NULL){
+                                nthreads           = 3,
+                                parametros_treino = NULL,
+                                n_models          = 100,
+                                save_importance   = F,
+                                folder_to_save   = NULL){
 
 
-  requireNamespace(data.table)
-  requireNamespace(xgboost)
-  requireNamespace(magrittr)
+  requireNamespace('data.table')
+  requireNamespace('xgboost')
+  requireNamespace('magrittr')
 
   if(is.null(folder_to_save)){
     cat(paste0("É necessário que haja uma pasta para salvar os modelos, \n
@@ -89,7 +89,7 @@ xgb_treino_ensemble <- function(dados,
     # separando teste e treino ------------------------------------------------
     cat(paste0("separando teste e treino \t \t \t \t  ---- \n"))
 
-    treino <- dados[,.SD[sample(.N, positivos,replace = T)],by = target]
+    treino <- dados[,.SD[sample(.N, n_samples,replace = T)],by = target]
 
     # preparando matrizes para rede -------------------------------------------
     cat(paste0("preparando matrizes para rede \t \t \t \t ---- \n"))
@@ -105,37 +105,37 @@ xgb_treino_ensemble <- function(dados,
       label = treino$target
     )
     # seleção de parametros  --------------------------------------------------
-    if(parametros$parametros$objective %in% c("multi:softmax", "multi:softprob")){
+    if(parametros_treino$parametros$objective %in% c("multi:softmax", "multi:softprob")){
       tmp_param <- list(
-        objective        = parametros$parametros$objective,
-        eval_metric      = parametros$parametros$eval_metric,
+        objective        = parametros_treino$parametros$objective,
+        eval_metric      = parametros_treino$parametros$eval_metric,
         base_score       = sum(treino$target)/nrow(treino),
-        max_leaves       = ceiling(rnorm_t(n = 1, mu = parametros$parametros$max_leaves, sd = 2, lower = 1)),
+        max_leaves       = ceiling(rnorm_t(n = 1, mu = parametros_treino$parametros$max_leaves, sd = 2, lower = 1)),
         #max.depth        = ceiling(runif(1,7,20)),
-        eta              = rnorm_t(n = 1, mu = parametros$parametros$eta, sd = 0.02, lower = 0.001),
-        gamma            = rnorm_t(n = 1, mu = parametros$parametros$gamma, sd = 0.5, lower = 0),
-        subsample        = rnorm_t(n = 1, mu = parametros$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
-        colsample_bytree = rnorm_t(n = 1, mu = parametros$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
-        min_child_weight = rnorm_t(n = 1, mu = parametros$parametros$min_child_weight, sd = 2, lower = 0),
-        grow_policy      = parametros$parametros$grow_policy,
-        tree_method      = parametros$parametros$tree_method,
-        num_class        = parametros$parametros$num_class
+        eta              = rnorm_t(n = 1, mu = parametros_treino$parametros$eta, sd = 0.02, lower = 0.001),
+        gamma            = rnorm_t(n = 1, mu = parametros_treino$parametros$gamma, sd = 0.5, lower = 0),
+        subsample        = rnorm_t(n = 1, mu = parametros_treino$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
+        colsample_bytree = rnorm_t(n = 1, mu = parametros_treino$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
+        min_child_weight = rnorm_t(n = 1, mu = parametros_treino$parametros$min_child_weight, sd = 2, lower = 0),
+        grow_policy      = parametros_treino$parametros$grow_policy,
+        tree_method      = parametros_treino$parametros$tree_method,
+        num_class        = parametros_treino$parametros$num_class
         #scale_pos_weight = sum(target == 0)/ sum(target == 1)
       )
     }else{
       tmp_param <- list(
-        objective        = parametros$parametros$objective,
-        eval_metric      = parametros$parametros$eval_metric,
+        objective        = parametros_treino$parametros$objective,
+        eval_metric      = parametros_treino$parametros$eval_metric,
         base_score       = sum(treino$target)/nrow(treino),
-        max_leaves       = ceiling(rnorm_t(n = 1, mu = parametros$parametros$max_leaves, sd = 2, lower = 1)),
+        max_leaves       = ceiling(rnorm_t(n = 1, mu = parametros_treino$parametros$max_leaves, sd = 2, lower = 1)),
         #max.depth        = ceiling(runif(1,7,20)),
-        eta              = rnorm_t(n = 1, mu = parametros$parametros$eta, sd = 0.02, lower = 0.001),
-        gamma            = rnorm_t(n = 1, mu = parametros$parametros$gamma, sd = 0.5, lower = 0),
-        subsample        = rnorm_t(n = 1, mu = parametros$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
-        colsample_bytree = rnorm_t(n = 1, mu = parametros$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
-        min_child_weight = rnorm_t(n = 1, mu = parametros$parametros$min_child_weight, sd = 2, lower = 0),
-        grow_policy      = parametros$parametros$grow_policy,
-        tree_method      = parametros$parametros$tree_method
+        eta              = rnorm_t(n = 1, mu = parametros_treino$parametros$eta, sd = 0.02, lower = 0.001),
+        gamma            = rnorm_t(n = 1, mu = parametros_treino$parametros$gamma, sd = 0.5, lower = 0),
+        subsample        = rnorm_t(n = 1, mu = parametros_treino$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
+        colsample_bytree = rnorm_t(n = 1, mu = parametros_treino$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
+        min_child_weight = rnorm_t(n = 1, mu = parametros_treino$parametros$min_child_weight, sd = 2, lower = 0),
+        grow_policy      = parametros_treino$parametros$grow_policy,
+        tree_method      = parametros_treino$parametros$tree_method
         #scale_pos_weight = sum(target == 0)/ sum(target == 1)
       )
     }

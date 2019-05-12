@@ -4,8 +4,9 @@
 \alias{xgb_treino_ensemble}
 \title{Treino ensemble de modelos XGBoost}
 \usage{
-xgb_treino_ensemble(dados, n_samples, nthreads = 3, parametros = NULL,
-  n_models = 100, save_importance = F, folder_to_save = NULL)
+xgb_treino_ensemble(dados, n_samples, nthreads = 3,
+  parametros_treino = NULL, n_models = 100, save_importance = F,
+  folder_to_save = NULL)
 }
 \arguments{
 \item{dados}{Objeto \code{data.table} com os dados já pre processados e com uma coluna \code{target}.}
@@ -14,7 +15,7 @@ xgb_treino_ensemble(dados, n_samples, nthreads = 3, parametros = NULL,
 
 \item{nthreads}{A quantidade de CPU threads disponíveis par ao XGBoost. DEFAULT: 3}
 
-\item{parametros}{A lista de parâmetros retornado pela função \code{xgb_select_params}}
+\item{parametros_treino}{A lista de parâmetros retornado pela função \code{xgb_select_params}}
 
 \item{n_models}{A quantidade de modelos gerados. Também é o número de sessões realizado. DEFAULT: 100}
 

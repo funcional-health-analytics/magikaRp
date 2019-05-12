@@ -17,7 +17,7 @@
 #'
 #' @return Uma lista com três posições: Os parâmetros procurados, o número de nrounds e a melhor métrica encontrada
 #'
-#' @import data.table xgboost magrittr mlrMBO smoof DiceKriging rgenoud lhs
+#' @import data.table xgboost magrittr mlrMBO smoof DiceKriging rgenoud lhs ParamHelpers
 #'
 #' @export
 
@@ -48,13 +48,13 @@ xgb_select_params <- function(dados,
                               nthreads        = 3,
                               tree_method     = "hist"){
 
-  base::requireNamespace(data.table)
-  base::requireNamespace(xgboost)
-  base::requireNamespace(magrittr)
-  base::requireNamespace(mlrMBO)
-  base::requireNamespace(smoof)
-  base::requireNamespace(DiceKriging)
-  base::requireNamespace(rgenoud)
+  base::requireNamespace('data.table')
+  base::requireNamespace('xgboost')
+  base::requireNamespace('magrittr')
+  base::requireNamespace('mlrMBO')
+  base::requireNamespace('smoof')
+  base::requireNamespace('DiceKriging')
+  base::requireNamespace('rgenoud')
 
   if(!objetivo %in% c("reg:squarederror",
                       "reg:logistic",
@@ -132,6 +132,15 @@ xgb_select_params <- function(dados,
   }
   cat(paste0("Criando uma amostra balanceada para as iterações \t \t \t \t ---- \n"))
 
+  if(metrica %in% c("auc",
+                    "aucpr",
+                    "ndcg",
+                    "map")
+  ){
+    maximize. <- T
+  }else{
+    maximize. <- F
+  }
 
 
 
@@ -143,7 +152,7 @@ xgb_select_params <- function(dados,
   for (iter in 1:niter_data) {
 
     if(grepl(objetivo, pattern = 'binary|multi')){
-      treino <- dados[,.SD[sample(.N, positivos,replace = T)],by = target]
+      treino <- dados[,.SD[sample(.N, n_samples,replace = T)],by = target]
     }else{
       treino <- dados[sample(.N, n_samples,replace = F)]
     }
@@ -155,15 +164,7 @@ xgb_select_params <- function(dados,
     if(objetivo %in% c("multi:softmax", "multi:softprob")){
       num_class <- length(unique(treino$target))
     }
-    if(metrica %in% c("auc",
-                      "aucpr",
-                      "ndcg",
-                      "map")
-    ){
-      maximize. <- T
-    }else{
-      maximize. <- F
-    }
+
 
     #cat(paste0("Transformando as colunas para numeric \t \t \t \t ---- \n"))
     treino <- treino[, lapply(.SD, as.numeric)]
@@ -217,14 +218,14 @@ xgb_select_params <- function(dados,
           }
 
         },
-        par.set = smoof::makeParamSet(
-          makeIntegerParam(id = "max_leaves", lower = 2, upper = 60),
-          makeNumericParam(id = "eta", lower = 0.0001, upper = 0.3),
-          makeNumericParam(id = "gamma", lower = 0, upper = 30),
-          makeNumericParam(id = "subsample", lower = 0.1, upper = 1),
-          makeNumericParam(id = "colsample_bytree", lower = 0.1,  upper = 1),
-          makeNumericParam(id = "min_child_weight", lower = 0, upper = 100),
-          makeIntegerParam(id = "nrounds", lower = 10, upper = cv.nrounds)
+        par.set = ParamHelpers::makeParamSet(
+          ParamHelpers::makeIntegerParam(id = "max_leaves", lower = 2, upper = 60),
+          ParamHelpers::makeNumericParam(id = "eta", lower = 0.0001, upper = 0.3),
+          ParamHelpers::makeNumericParam(id = "gamma", lower = 0, upper = 30),
+          ParamHelpers::makeNumericParam(id = "subsample", lower = 0.1, upper = 1),
+          ParamHelpers::makeNumericParam(id = "colsample_bytree", lower = 0.1,  upper = 1),
+          ParamHelpers::makeNumericParam(id = "min_child_weight", lower = 0, upper = 100),
+          ParamHelpers::makeIntegerParam(id = "nrounds", lower = 10, upper = cv.nrounds)
         ),
         minimize = !maximize.
 
@@ -265,27 +266,27 @@ xgb_select_params <- function(dados,
           }
 
         },
-        par.set = smoof::makeParamSet(
-          makeIntegerParam(id = "max_leaves", lower = 2, upper = 60),
-          makeNumericParam(id = "eta", lower = 0.0001, upper = 0.3),
-          makeNumericParam(id = "gamma", lower = 0, upper = 30),
-          makeNumericParam(id = "subsample", lower = 0.1, upper = 1),
-          makeNumericParam(id = "colsample_bytree", lower = 0.1,  upper = 1),
-          makeNumericParam(id = "min_child_weight", lower = 0, upper = 100),
-          makeIntegerParam(id = "nrounds", lower = 10, upper = cv.nrounds)
+        par.set = ParamHelpers::makeParamSet(
+          ParamHelpers::makeIntegerParam(id = "max_leaves", lower = 2, upper = 60),
+          ParamHelpers::makeNumericParam(id = "eta", lower = 0.0001, upper = 0.3),
+          ParamHelpers::makeNumericParam(id = "gamma", lower = 0, upper = 30),
+          ParamHelpers::makeNumericParam(id = "subsample", lower = 0.1, upper = 1),
+          ParamHelpers::makeNumericParam(id = "colsample_bytree", lower = 0.1,  upper = 1),
+          ParamHelpers::makeNumericParam(id = "min_child_weight", lower = 0, upper = 100),
+          ParamHelpers::makeIntegerParam(id = "nrounds", lower = 10, upper = cv.nrounds)
         ),
         minimize = !maximize.
       )
     }
 
 
-    design <- mlrMBO::generateDesign(
+    design <- ParamHelpers::generateDesign(
       n       = 30,
       par.set = getParamSet(obj.func),
       fun     = lhs::randomLHS
     )
 
-    control <- makeMBOControl() %>%
+    control <- mlrMBO::makeMBOControl() %>%
       setMBOControlTermination(iters = niter_bayes)
 
     run <- mlrMBO::mbo(
@@ -320,14 +321,14 @@ xgb_select_params <- function(dados,
     gc(reset = T)
   }
   if(objetivo %in% c("multi:softmax", "multi:softprob")){
-    best_param['objetive']     <- objetivo
+    best_param['objective']     <- objetivo
     best_param['eval_metric']  <- metrica
     best_param['base_score']   <- sum(treino$target)/nrow(treino)
     best_param['grow_policy']  <- 'lossguide'
     best_param['tree_method'] <- tree_method
     best_param['num_class']   <- num_class
   }else{
-    best_param['objetive']     <- objetivo
+    best_param['objective']     <- objetivo
     best_param['eval_metric']  <- metrica
     best_param['base_score']   <- sum(treino$target)/nrow(treino)
     best_param['grow_policy']  <- 'lossguide'
