@@ -1,16 +1,4 @@
 
-#' @title Rnorm limitada
-#'
-#' @description Seu objetivo é gerar uma vizinhança, em torno dos parâmetros
-#'
-#' @param n  O tamanho da amostra
-#' @param mu A média da distribuição
-#' @param sd O desvio padrão da distribuição
-#' @param upper O limite superior da distribuição
-#' @param lower O limite inferior da distribuição
-#'
-#' @return Retorna um sorteio aleatório de uma distribuição norma limitada nos valores superiores e inferiores dados para a função
-
 rnorm_t <- function(n, mu, sd, upper = Inf, lower = -Inf){
   result <- stats::rnorm(n    = n,
                   mean = mu,
@@ -112,11 +100,11 @@ xgb_treino_ensemble <- function(dados,
         base_score       = sum(treino$target)/nrow(treino),
         max_leaves       = ceiling(rnorm_t(n = 1, mu = parametros_treino$parametros$max_leaves, sd = 2, lower = 1)),
         #max.depth        = ceiling(runif(1,7,20)),
-        eta              = rnorm_t(n = 1, mu = parametros_treino$parametros$eta, sd = 0.02, lower = 0.001),
-        gamma            = rnorm_t(n = 1, mu = parametros_treino$parametros$gamma, sd = 0.5, lower = 0),
-        subsample        = rnorm_t(n = 1, mu = parametros_treino$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
-        colsample_bytree = rnorm_t(n = 1, mu = parametros_treino$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
-        min_child_weight = rnorm_t(n = 1, mu = parametros_treino$parametros$min_child_weight, sd = 2, lower = 0),
+        eta              = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$eta, sd = 0.02, lower = 0.001),
+        gamma            = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$gamma, sd = 0.5, lower = 0),
+        subsample        = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
+        colsample_bytree = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
+        min_child_weight = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$min_child_weight, sd = 2, lower = 0),
         grow_policy      = parametros_treino$parametros$grow_policy,
         tree_method      = parametros_treino$parametros$tree_method,
         num_class        = parametros_treino$parametros$num_class
@@ -129,11 +117,11 @@ xgb_treino_ensemble <- function(dados,
         base_score       = sum(treino$target)/nrow(treino),
         max_leaves       = ceiling(rnorm_t(n = 1, mu = parametros_treino$parametros$max_leaves, sd = 2, lower = 1)),
         #max.depth        = ceiling(runif(1,7,20)),
-        eta              = rnorm_t(n = 1, mu = parametros_treino$parametros$eta, sd = 0.02, lower = 0.001),
-        gamma            = rnorm_t(n = 1, mu = parametros_treino$parametros$gamma, sd = 0.5, lower = 0),
-        subsample        = rnorm_t(n = 1, mu = parametros_treino$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
-        colsample_bytree = rnorm_t(n = 1, mu = parametros_treino$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
-        min_child_weight = rnorm_t(n = 1, mu = parametros_treino$parametros$min_child_weight, sd = 2, lower = 0),
+        eta              = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$eta, sd = 0.02, lower = 0.001),
+        gamma            = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$gamma, sd = 0.5, lower = 0),
+        subsample        = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$subsample, sd = 0.1, lower = 0.01, upper = 1),
+        colsample_bytree = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$colsample_bytree, sd = 0.1, lower = 0.01, upper = 1),
+        min_child_weight = magikaRp:::rnorm_t(n = 1, mu = parametros_treino$parametros$min_child_weight, sd = 2, lower = 0),
         grow_policy      = parametros_treino$parametros$grow_policy,
         tree_method      = parametros_treino$parametros$tree_method
         #scale_pos_weight = sum(target == 0)/ sum(target == 1)

@@ -59,10 +59,10 @@ misc_one_hot <- function(dados,
   tmp <- tmp[!duplicated(tmp)]
 
 
-  result <- one_hot.(dados = tmp,
-                     id_var = var_id,
-                     coded_var = var_categorica_alvo
-                     )
+  result <- magikaRp:::one_hot.(dados = tmp,
+                                id_var = var_id,
+                                coded_var = var_categorica_alvo
+                                )
   return(result)
 
 }

@@ -6,9 +6,9 @@ j_count <- function(coluna_alvo,
     stop("Coluna_alvo deve ser o nome, em character, da coluna que pretende calcular algo.")
   }
   if(base::is.character(vetor_niveis_unicos)){
-    calculo <- paste0("sum( ", coluna_alvo, " == ", vetor_niveis_unicos, ")")
+    calculo <- paste0("sum( ", coluna_alvo, " == '", vetor_niveis_unicos, "')")
   }else{
-    calculo <- paste0("sum( ", coluna_alvo, " ==  '", vetor_niveis_unicos, "')")
+    calculo <- paste0("sum( ", coluna_alvo, " ==  ", vetor_niveis_unicos, ")")
   }
 
   string <- paste( "list(",paste(nome_colunas,
@@ -58,25 +58,25 @@ misc_contagem_niveis <- function(dados,
   }
 
   eval(parse(text = paste0("data.table::setkey(tmp, ", var_id, ")")))
-  niveis_unicos <- eval(parse(text = paste0("levels(as.factor(", dados,"$", var_categorica_alvo, "))")))
+  niveis_unicos <- eval(parse(text = paste0("levels(as.factor(dados$", var_categorica_alvo, "))")))
   if(is.null(subset_niveis_cat_alvo)){
     nome_colunas. <- paste0(var_categorica_alvo, "_", niveis_unicos)
     result <- tmp[,
-                  eval(j_count(coluna_alvo         = var_categorica_alvo,
-                               vetor_niveis_unicos = niveis_unicos,
-                               nome_colunas        = nome_colunas.)
-                  ),
-                  by = .(var_id),
+                  eval(magikaRp:::j_count(coluna_alvo         = var_categorica_alvo,
+                                          vetor_niveis_unicos = niveis_unicos,
+                                          nome_colunas        = nome_colunas.)
+                       ),
+                  by = c(var_id),
                   verbose = 0
                   ]
   }else{
     nome_colunas. <- paste0(sort(subset_niveis_cat_alvo), "_", niveis_unicos)
     result <- tmp[,
-                  eval(j_count(coluna_alvo         = var_categorica_alvo,
-                               vetor_niveis_unicos = niveis_unicos,
-                               nome_colunas        = nome_colunas.)
-                  ),
-                  by = .(var_id),
+                  eval(magikaRp:::j_count(coluna_alvo         = var_categorica_alvo,
+                                          vetor_niveis_unicos = niveis_unicos,
+                                          nome_colunas        = nome_colunas.)
+                       ),
+                  by = c(var_id),
                   verbose = 0
                   ]
   }

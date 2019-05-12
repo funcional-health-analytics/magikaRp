@@ -6,7 +6,7 @@ month_costum <- function(x, divisor = "/"){
 
 insert_zero_month <- function(x, divisor = "/"){
   x <- str_split(x, pattern = divisor)
-  return(unlist(lapply(x, month_costum, divisor = divisor)))
+  return(unlist(lapply(x, magikaRp:::month_costum, divisor = divisor)))
 }
 
 
@@ -49,7 +49,7 @@ misc_date <- function(dados,
 
   eval(parse(text = paste0("dados[grepl(pattern = '-[0-9]-', ",
                            "x = ",coluna_data, "),",
-                           coluna_data, " := insert_zero_month( ", coluna_data, ", divisor = '-')]"
+                           coluna_data, " := magikaRp:::insert_zero_month( ", coluna_data, ", divisor = '-')]"
                            )
              )
        )

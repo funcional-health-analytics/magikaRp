@@ -43,8 +43,8 @@ misc_left_join <- function(dados_left,
   data.table::setindex(dados_left, by)
 
   dados_left[dados_right,
-             eval(pull_right(columns    = columns_to_pull,
-                             exceptions = columns_not_to_pull)
+             eval(magikaRp:::pull_right(columns    = columns_to_pull,
+                                        exceptions = columns_not_to_pull)
                   ),
              on = by
              ]

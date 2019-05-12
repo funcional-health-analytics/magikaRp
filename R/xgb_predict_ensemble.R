@@ -78,7 +78,7 @@ xgb_predict_ensemble <- function(folder, newdata, classe = F){
 #    multiple_models <- as.data.table(as.matrix(multiple_models_dados))
     multiple_models <- as.data.table(multiple_models_dados)
     multiple_models[, id := 1:nrow(multiple_models)]
-    multiple_models <- reldtMtd(dados = multiple_models)
+    multiple_models <- magikaRp:::reldtMtd(dados = multiple_models)
     multiple_models[, id := NULL]
     colnames(multiple_models) <- c("predicao")
   }
