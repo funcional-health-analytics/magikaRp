@@ -44,12 +44,12 @@ misc_contagem_niveis <- function(dados,
   requireNamespace("data.table")
 
   if(is.null(var_temporal)){
-    tmp <- eval(parse(text = paste0("dados[, .(", var_id,",",
+    tmp <- eval(parse(text = paste0("dados[, list(", var_id,",",
                                     var_categorica_alvo, ")]")
                       )
                 )
   }else{
-    tmp <- eval(parse(text = paste0("dados[, .(", var_id,",",
+    tmp <- eval(parse(text = paste0("dados[, list(", var_id,",",
                                     var_temporal, ",",
                                     var_categorica_alvo, ")]")
                       )
