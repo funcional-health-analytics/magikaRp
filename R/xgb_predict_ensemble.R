@@ -68,7 +68,7 @@ xgb_predict_ensemble <- function(folder, newdata, classe = F){
     eval(parse(text = code1))
     # multiple_models_dados <- cbind(multiple_models_dados, tmp)
   }
-  if(classe){
+  if(!classe){
     #multiple_models <- as.matrix(multiple_models_dados) %>%
     multiple_models <- multiple_models_dados %>%
       apply(1, FUN = stats::median) %>%
