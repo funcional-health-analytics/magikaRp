@@ -9,8 +9,6 @@ insert_zero_month <- function(x, divisor = "/"){
   return(unlist(lapply(x, magikaRp:::month_costum, divisor = divisor)))
 }
 
-
-
 #' @title Identifica tipo de data
 #'
 #' @description Identifica e transforma uma string para lubridate data (que use '/' ou '-') INPLACE nos formatos

@@ -1,4 +1,3 @@
-
 rnorm_t <- function(n, mu, sd, upper = Inf, lower = -Inf){
   result <- stats::rnorm(n    = n,
                   mean = mu,

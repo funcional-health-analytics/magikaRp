@@ -1,6 +1,6 @@
-#' Selecionador de hyperparametros para Xgboost
+#' @title Selecionador de hyperparametros para Xgboost
 #'
-#' Seu objetivo é selecionar hyperparametros que maximizem ou minimizem seu objetivo utilizando CV e Sessões.
+#' @description  Seu objetivo é selecionar hyperparametros que maximizem ou minimizem seu objetivo utilizando CV e Sessões.
 #' Para isto ele se utiliza do pacote mlrMBO, realizando optimizações de estatística bayesiana
 #'
 #' @param dados Um objeto data.table com os dados pre processados e uma coluna target

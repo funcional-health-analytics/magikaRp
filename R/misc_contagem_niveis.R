@@ -1,4 +1,3 @@
-
 j_count <- function(coluna_alvo,
                     vetor_niveis_unicos,
                     nome_colunas){

@@ -1,7 +1,3 @@
-
-
-
-
 reldtMtd <- function(dados) {
   requireNamespace('data.table')
   requireNamespace('xgboost')
