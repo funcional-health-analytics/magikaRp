@@ -39,7 +39,26 @@ misc_left_join <- function(dados_left,
     columns_not_to_pull <- c(columns_not_to_pull, by)
   }
 
-  data.table::setindex(dados_left, names(by))
+  lhs_index <- paste0(names(by))
+
+  eval(
+    parse(
+      text = paste0(
+        "data.table::setindex(dados_left,'", paste0(names(by), collapse = "','"),"' )"
+      )
+    )
+  )
+
+  eval(
+    parse(
+      text = paste0(
+        "data.table::setindex(dados_right,'", paste0(by, collapse = "','"),"' )"
+      )
+    )
+  )
+
+
+  #data.table::setindex(dados_left, names(by))
   data.table::setindex(dados_left, by)
 
   dados_left[dados_right,
