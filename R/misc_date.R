@@ -24,6 +24,7 @@ insert_zero_month <- function(x, divisor = "/"){
 #' @import stringr data.table
 #'
 #' @return Nada. Altera INPLACE a coluna do \code{data.table} especificada
+#' @export
 
 misc_date <- function(dados,
                       coluna_data,
