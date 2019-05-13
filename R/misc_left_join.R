@@ -59,7 +59,7 @@ misc_left_join <- function(dados_left,
 
 
   #data.table::setindex(dados_left, names(by))
-  data.table::setindex(dados_left, by)
+  #data.table::setindex(dados_left, by)
 
   dados_left[dados_right,
              eval(magikaRp:::pull_right(columns    = columns_to_pull,
