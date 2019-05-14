@@ -34,8 +34,9 @@ misc_one_hot <- function(dados,
                          var_categorica_alvo){
 
   tmp <- eval(parse(text = paste0("dados[, list(", var_id, ",",
-                                                   var_categorica_alvo, ",",
-                                        ")]")
+                                                   var_categorica_alvo,
+                                        ")]"
+                                  )
                     )
               )
   if(eval(parse(text = paste0("is.character(tmp$",var_categorica_alvo,")")))){
