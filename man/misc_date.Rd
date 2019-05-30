@@ -17,7 +17,5 @@ misc_date(dados, coluna_data, conferir = T)
 Nada. Altera INPLACE a coluna do \code{data.table} especificada
 }
 \description{
-Identifica e transforma uma string para lubridate data (que use '/' ou '-') INPLACE nos formatos
-YYYY-mm-dd, YYYY-dd-mm, YYYY-m-d, YYYY-d-m, mm-dd-YYYY, m-d-YYYY, dd-mm-YYYY, d-m-YYYY
-YYYY/mm/dd, YYYY/dd/mm, YYYY/m/d, YYYY/d/m, mm/dd/YYYY, m/d/YYYY, dd/mm/YYYY, d/m/YYYY. E combinações entre mm, m, dd, d.
+Identifica e transforma uma string de data para um formato data para o lubriate
 }
