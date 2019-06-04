@@ -28,6 +28,10 @@ NumericVector Cquantile(NumericVector& x, NumericVector& q) {
 //' Bootstrap que serão feitas
 //' @param inf Um número \code{numeric} informando o quantil inferior do intervalo
 //' @param sup Um número \code{numeric} informando o quantil inferior do intervalo
+//'
+//' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
+//'
+//' @export
 
 
 // [[Rcpp::export]]
@@ -65,7 +69,8 @@ Rcpp::List boot_mean_interval(NumericVector& tratamento,
 
   return Rcpp::List::create(Rcpp::Named("inf")  = intervalo[0],
                             Rcpp::Named("media")  = media,
-                            Rcpp::Named("sup") = intervalo[1]);
+                            Rcpp::Named("sup") = intervalo[1],
+                                                          Rcpp::Named("distribuicao") = distribuicao);
 
 }
 
@@ -86,6 +91,8 @@ Rcpp::List boot_mean_interval(NumericVector& tratamento,
 //' Bootstrap que serão feitas
 //' @param inf Um número \code{numeric} informando o quantil inferior do intervalo
 //' @param sup Um número \code{numeric} informando o quantil inferior do intervalo
+//'
+//' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 //'
 //' @export
 //'
@@ -120,7 +127,8 @@ Rcpp::List boot_mean_rel_interval(NumericVector& tratamento,
 
   return Rcpp::List::create(Rcpp::Named("inf")  = intervalo[0],
                             Rcpp::Named("media")  = media,
-                            Rcpp::Named("sup") = intervalo[1]);
+                            Rcpp::Named("sup") = intervalo[1],
+                                                          Rcpp::Named("distribuicao") = distribuicao);
 
 }
 
@@ -141,6 +149,8 @@ Rcpp::List boot_mean_rel_interval(NumericVector& tratamento,
 //' Bootstrap que serão feitas
 //' @param inf Um número \code{numeric} informando o quantil inferior do intervalo
 //' @param sup Um número \code{numeric} informando o quantil inferior do intervalo
+//'
+//' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 //'
 //' @export
 //'
@@ -175,6 +185,7 @@ Rcpp::List boot_prop_interval(NumericVector& tratamento,
 
   return Rcpp::List::create(Rcpp::Named("inf")  = intervalo[0],
                             Rcpp::Named("media")  = media,
-                            Rcpp::Named("sup") = intervalo[1]);
+                            Rcpp::Named("sup") = intervalo[1],
+                            Rcpp::Named("distribuicao") = distribuicao);
 
 }

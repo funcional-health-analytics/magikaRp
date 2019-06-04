@@ -23,6 +23,9 @@ Bootstrap que serão feitas}
 
 \item{sup}{Um número \code{numeric} informando o quantil inferior do intervalo}
 }
+\value{
+Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
+}
 \description{
 Utilizando dois vetores \code{numeric} calcula-se o intervalo de
 Bootstrap de diferença relativa \eqn{ \frac{mean(tratamento)}{mean(controle)}} de médias, conforme quantis fornecidos.

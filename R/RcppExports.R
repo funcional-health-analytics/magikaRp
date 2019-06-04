@@ -16,6 +16,10 @@
 #' Bootstrap que serão feitas
 #' @param inf Um número \code{numeric} informando o quantil inferior do intervalo
 #' @param sup Um número \code{numeric} informando o quantil inferior do intervalo
+#'
+#' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
+#'
+#' @export
 NULL
 
 boot_mean_interval <- function(tratamento, controle, B_size, replicas, inf, sup) {
@@ -38,6 +42,8 @@ boot_mean_interval <- function(tratamento, controle, B_size, replicas, inf, sup)
 #' @param inf Um número \code{numeric} informando o quantil inferior do intervalo
 #' @param sup Um número \code{numeric} informando o quantil inferior do intervalo
 #'
+#' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
+#'
 #' @export
 #'
 boot_mean_rel_interval <- function(tratamento, controle, B_size, replicas, inf, sup) {
@@ -59,6 +65,8 @@ boot_mean_rel_interval <- function(tratamento, controle, B_size, replicas, inf, 
 #' Bootstrap que serão feitas
 #' @param inf Um número \code{numeric} informando o quantil inferior do intervalo
 #' @param sup Um número \code{numeric} informando o quantil inferior do intervalo
+#'
+#' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 #'
 #' @export
 #'
