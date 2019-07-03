@@ -32,6 +32,7 @@ NumericVector Cquantile(NumericVector& x, NumericVector& q) {
 //' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 //'
 //' @export
+//' @rawNamespace useDynLib(magikaRp)
 
 
 // [[Rcpp::export]]
@@ -95,7 +96,8 @@ Rcpp::List boot_mean_interval(NumericVector& tratamento,
 //' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 //'
 //' @export
-//'
+//' @rawNamespace useDynLib(magikaRp)
+
 // [[Rcpp::export]]
 
 Rcpp::List boot_mean_rel_interval(NumericVector& tratamento,
@@ -153,7 +155,7 @@ Rcpp::List boot_mean_rel_interval(NumericVector& tratamento,
 //' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 //'
 //' @export
-//'
+//' @rawNamespace useDynLib(magikaRp)
 // [[Rcpp::export]]
 
 Rcpp::List boot_prop_interval(NumericVector& tratamento,

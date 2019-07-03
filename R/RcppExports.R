@@ -20,11 +20,8 @@
 #' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 #'
 #' @export
+#' @rawNamespace useDynLib(magikaRp)
 NULL
-
-boot_mean_interval <- function(tratamento, controle, B_size, replicas, inf, sup) {
-    .Call('_magikaRp_boot_mean_interval', PACKAGE = 'magikaRp', tratamento, controle, B_size, replicas, inf, sup)
-}
 
 #' @title  Calcula um intervalo de confiança Bootstrap para diferença relativa de médias
 #'
@@ -45,7 +42,13 @@ boot_mean_interval <- function(tratamento, controle, B_size, replicas, inf, sup)
 #' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 #'
 #' @export
-#'
+#' @rawNamespace useDynLib(magikaRp)
+NULL
+
+boot_mean_interval <- function(tratamento, controle, B_size, replicas, inf, sup) {
+    .Call('_magikaRp_boot_mean_interval', PACKAGE = 'magikaRp', tratamento, controle, B_size, replicas, inf, sup)
+}
+
 boot_mean_rel_interval <- function(tratamento, controle, B_size, replicas, inf, sup) {
     .Call('_magikaRp_boot_mean_rel_interval', PACKAGE = 'magikaRp', tratamento, controle, B_size, replicas, inf, sup)
 }
@@ -69,7 +72,7 @@ boot_mean_rel_interval <- function(tratamento, controle, B_size, replicas, inf, 
 #' @return Uma lista contendo o intervalo inferior, a média, o intervalo superior e o vetor da medida
 #'
 #' @export
-#'
+#' @rawNamespace useDynLib(magikaRp)
 boot_prop_interval <- function(tratamento, controle, B_size, replicas, inf, sup) {
     .Call('_magikaRp_boot_prop_interval', PACKAGE = 'magikaRp', tratamento, controle, B_size, replicas, inf, sup)
 }
