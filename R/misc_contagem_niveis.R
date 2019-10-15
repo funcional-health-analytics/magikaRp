@@ -77,6 +77,5 @@ misc_contagem_niveis <- function(dados,
                   by = c(var_id)
                   ]
   }
-
   return(result)
 }
