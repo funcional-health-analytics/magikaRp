@@ -65,8 +65,7 @@ misc_contagem_niveis <- function(dados,
                                           vetor_niveis_unicos = niveis_unicos,
                                           nome_colunas        = nome_colunas.)
                        ),
-                  by = c(var_id),
-                  verbose = 0
+                  by = c(var_id)
                   ]
   }else{
     nome_colunas. <- paste0(sort(subset_niveis_cat_alvo), "_", niveis_unicos)
@@ -75,8 +74,7 @@ misc_contagem_niveis <- function(dados,
                                           vetor_niveis_unicos = niveis_unicos,
                                           nome_colunas        = nome_colunas.)
                        ),
-                  by = c(var_id),
-                  verbose = 0
+                  by = c(var_id)
                   ]
   }
 
